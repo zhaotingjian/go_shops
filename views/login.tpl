@@ -44,12 +44,9 @@
       data: { username: username, password: password },
       dataType: "json",
       success: function (data) {
-        if (data.code == 'success') {
-          showNotice(data.msg);
-          window.parent.rightFrame.location.reload();// 刷新右边的页面
-          window.parent.closeDialog();// 关闭
-        } else {
-          showNotice(data.msg);
+        alert(data.Msg)
+        if (data.Code == 1) {
+          window.location="http://127.0.0.1:8080/index"
         }
       }
     });
