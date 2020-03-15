@@ -1,7 +1,7 @@
 package main
 
 import (
-	_ "blog/routers"
+	_ "test/routers"
 
 	"github.com/astaxie/beego"
 	_ "github.com/astaxie/beego/session/redis"

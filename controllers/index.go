@@ -1,12 +1,18 @@
 package controllers
 
-type MainController struct {
+// @title 首页面类型
+type IndexController struct {
 	CommonController
 }
 
-//首页方法
-func (c *MainController) Index() {
-	c.Data["Website"] = "beego.me"
-	c.Data["Email"] = "astaxie@gmail.com"
-	c.TplName = "index.tpl"
+func (c *IndexController) Index() {
+	// menu:=struct{
+	// 	name string//名称
+	// 	url string//地址
+	// 	sort int//排序
+	// }{
+	// 	"小说管理";
+	// 	""
+	// }
+	c.TplName = "index.index.tpl"
 }
