@@ -1,8 +1,8 @@
 package controllers
 
 import (
-	"encoding/json"
 	"github.com/astaxie/beego/orm"
+	"fmt"
 )
 
 // @title 登入页面类型
@@ -38,12 +38,9 @@ func (c *LoginController) Login() {
 		}
 
 		//4.放入session
-		userInfoStr, err := json.Marshal(emp)
-		if err != nil {
-			print(err)
-			return
-		}
-		c.SetSession("userinfo", userInfoStr)
+		sess:=c.StartSession()
+		sess.Set("userinfo", emp)
+		//fmt.Println(sess.Get("userinfo"))
 		//5.返回数据
 		c.sendSuccess(1, "登入成功", "")
 		return

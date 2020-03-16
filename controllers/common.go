@@ -34,9 +34,26 @@ func init() {
 
 func (c *CommonController) Prepare() {
 	//1.判断登入状态
-	v := c.GetSession("userinfo")
-	if v == nil {
-		c.Ctx.Redirect(302, "/login")
+	url:=[]string{
+		"/login",
+		"/login/",
+		"/login/login",
+	}
+	check_session:=true
+	for _,v:=range url{
+		if c.Ctx.Request.URL.Path==v{
+			check_session=false
+		}
+	}
+	if check_session {
+		v := c.GetSession("userinfo")
+		sess:=c.StartSession()
+		userinfo:=sess.Get("userinfo")
+		if userinfo.id ==0  {
+			c.Ctx.Redirect(302, "/login")
+		}
+		//fmt.Println(v)
+		//fmt.Println(json.Unmarshal(v))
 	}
 	//2.获取菜单权限
 	// do some authenticate stuff
@@ -129,4 +146,20 @@ func (c *CommonController) pageUtil(col string, where string, pageSize int, list
 	}
 	pageUrl = re.ReplaceAllString(pageUrl, "")
 	return Page{HasContents: true, PageNo: pageNo, PageSize: pageSize, TotalPage: tp, TotalCount: count, FirstPage: pageNo == 1, LastPage: pageNo == tp,PageUrl: pageUrl, List: list}
+}
+//获取请求控制器
+func (c *CommonController) getController() string{
+	data:=explode(c.Ctx.Request.URL.Path,"/")
+	if len(data)>1{
+		return data[1]
+	}
+	return ""
+}
+//获取请求方法
+func (c *CommonController) getAction() string{
+	data:=explode(c.Ctx.Request.URL.Path,"/")
+	if len(data)>2{
+		return data[2]
+	}
+	return ""
 }
